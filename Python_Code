@@ -1,0 +1,121 @@
+from random import uniform
+from math import exp
+
+def sigmoid(x):
+    return 1 / ( 1 + exp(-x))
+
+def sigmoid_derivative(x):
+    return x * (1-x)
+
+# input
+i = 0
+while i < 1000:
+    a = 1
+    b = 2
+    e1 = 0.8
+    e2 = 0.9
+    lr = 0.5
+
+    w1 = uniform(-1,1)
+    w2 = uniform(-1,1)
+    w3 = uniform(-1,1)
+    w4 = uniform(-1,1)
+    w5 = uniform(-1,1)
+    w6 = uniform(-1,1)
+    w7 = uniform(-1,1)
+    w8 = uniform(-1,1)
+    w9 = uniform(-1,1)
+    w10 = uniform(-1,1)
+    w11 = uniform(-1,1)
+    w12 = uniform(-1,1)
+    w13 = uniform(-1,1)
+    w14 = uniform(-1,1)
+    w15 = uniform(-1,1)
+    w16 = uniform(-1,1)
+    w17 = uniform(-1,1)
+    w18 = uniform(-1,1)
+    w19 = uniform(-1,1)
+    w20 = uniform(-1,1)
+    w21 = uniform(-1,1)
+
+    b1 = uniform(-1,1)
+    b2 = uniform(-1,1)
+    b3 = uniform(-1,1)
+    b4 = uniform(-1,1)
+    b5 = uniform(-1,1)
+    b6 = uniform(-1,1)
+    b7 = uniform(-1,1)
+    b8 = uniform(-1,1)
+
+    x = sigmoid((a * w1) + (b * w4) + b1)
+    y = sigmoid((a * w2) + (b * w5) + b2)
+    z = sigmoid((a * w3) + (b * w6) + b3)
+
+    p = sigmoid((x * w7) + (y * w9) + (z * w13) + b4)
+    q = sigmoid((x * w8) + (y * w11) + (z * w14) + b5)
+    r = sigmoid((x * w10) + (y * w12) + (z * w15) + b6)
+
+    o1 = sigmoid((p * w16) + (q * w18) + (r * w20) + b7)
+    o2 = sigmoid((p * w17) + (q * w19) + (r * w21) + b8)
+
+    # Backward Propagation
+
+    error_1 = e1 - o1
+    error_2 = e2 - o2
+
+    delta_1 = sigmoid_derivative(o1) * error_1  
+    delta_2 = sigmoid_derivative(o2) * error_2
+
+    eh1 = (delta_1 * w16) + (delta_2 * w17) # error of p
+    eh2 = (delta_1 * w18) + (delta_2 * w19) # error of q
+    eh3 = (delta_1 * w20) + (delta_2 * w21) # error of r
+    eh4 = (eh1 * w7) + (eh2 * w8) + (eh3 * w10) # error of x
+    eh5 = (eh1 * w9) + (eh2 * w11) + (eh3 * w12) # error of y
+    eh6 = (eh1 * w13) + (eh2 * w14) + (eh3 * w15) # error of z
+
+    dh1 = (eh1 * sigmoid_derivative(p) + eh2 * sigmoid_derivative(p))
+    dh2 = (eh1 * sigmoid_derivative(q) + eh2 * sigmoid_derivative(q))
+    dh3 = (eh1 * sigmoid_derivative(r) + eh2 * sigmoid_derivative(r))
+    dh4 = (eh1 * sigmoid_derivative(x) + eh2 * sigmoid_derivative(x) + eh3 * sigmoid_derivative(x))
+    dh5 = (eh1 * sigmoid_derivative(y) + eh2 * sigmoid_derivative(y) + eh3 * sigmoid_derivative(y))
+    dh6 = (eh1 * sigmoid_derivative(z) + eh2 * sigmoid_derivative(z) + eh3 * sigmoid_derivative(z))
+
+    # adjusting weights and biases
+    i = 0
+    while i < 1000:
+        w1 += ((dh4 * a) * lr)
+        w2 += ((dh5 * a) * lr)
+        w3 += ((dh6 * a) * lr)
+        w4 += ((dh4 * b) * lr)
+        w5 += ((dh5 * b) * lr)
+        w6 += ((dh6 * b) * lr)
+
+        b1 += (dh4 * lr)
+        b2 += (dh5 * lr)
+        b3 += (dh6 * lr)
+
+        w7 += ((dh1 * x) * lr)
+        w8 += ((dh2 * x) * lr)
+        w9 += ((dh1 * y) * lr)
+        w10 += ((dh3 * x) * lr)
+        w11 += ((dh2 * y) * lr)
+        w12 += ((dh3 * y) * lr)
+        w13 += ((dh1 * z) * lr)
+        w14 += ((dh2 * z) * lr)
+        w15 += ((dh3 * z) * lr)
+
+        b4 += (dh1 * lr)
+        b5 += (dh2 * lr)
+        b6 += (dh3 * lr)
+
+        w16 += ((delta_1 * p) * lr)
+        w18 += ((delta_1 * q) * lr)
+        w19 += ((delta_2 * q) * lr)
+        w20 += ((delta_1 * r) * lr)
+        w21 += ((delta_2 * r) * lr)
+
+        b7 += (delta_1 * lr)
+        b8 += (delta_2 * lr)
+        
+        i += 1
+        print(w1,w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w14,w15,w16,w17,w18,w19,w20,w21,b1,b2,b3,b4,b5,b6,b7,b8, sep="\n")
